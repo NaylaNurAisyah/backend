@@ -13,9 +13,24 @@ export default async function handler(req, res) {
     return res.status(200).end();
   }
 
-  await client.connect();
-  const db = client.db(dbName);
-  const col = db.collection("users");
+  try {
+    if (!process.env.MONGO_URI) {
+      console.error("❗ MONGO_URI tidak ditemukan!");
+      throw new Error("Missing MONGO_URI");
+    }
+    await client.connect();
+    console.log("✅ MongoDB berhasil connect");
+    const db = client.db(dbName);
+    const collection = db.collection("users");
+    // Lanjutkan GET/POST...
+  } catch (err) {
+    console.error("🔥 ERROR di handler:", err);
+    return res.status(500).json({
+      error: "Internal Server Error",
+      details: err.message
+    });
+  }
+
 
   if (req.method === "GET") {
     const users = await col.find().toArray();
