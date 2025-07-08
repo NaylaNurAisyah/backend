@@ -9,9 +9,12 @@ export default async function handler(req, res) {
     try {
       const { userIds } = req.body;
 
-      if (!Array.isArray(userIds) || userIds.length === 0 || userIds.some(id => typeof id !== "number")) {
-        return res.status(400).json({ error: "Invalid userIds format. Harus array angka" });
+      // 💡 Validasi ketat
+      if (!Array.isArray(userIds) || userIds.length === 0 || userIds.some(id => typeof id !== "number" || isNaN(id))) {
+        return res.status(400).json({ error: "userIds harus array angka valid" });
       }
+
+      console.log("Kirim ke Roblox:", userIds);
 
       const response = await fetch("https://thumbnails.roblox.com/v1/users/avatar-headshot", {
         method: "POST",
@@ -23,18 +26,13 @@ export default async function handler(req, res) {
           isCircular: true
         })
       });
-      console.log("Kirim ke Roblox:", {
-        userIds,
-        size: "150x150",
-        format: "Png",
-        isCircular: true
-      });
 
       const data = await response.json();
-      return res.status(200).json(data);
+      console.log("Respon dari Roblox:", data);
 
+      return res.status(200).json(data);
     } catch (error) {
-      console.error("Thumbnail API Error:", error);
+      console.error("Thumbnail API error:", error);
       return res.status(500).json({ error: "Failed to fetch avatar thumbnails" });
     }
   }
