@@ -11,6 +11,10 @@ export default async function handler(req, res) {
   if (req.method === "POST") {
     try {
       const { userIds } = req.body;
+      if (!Array.isArray(userIds) || userIds.some(id => typeof id !== "number")) {
+        return res.status(400).json({ error: "userIds harus array berisi angka" });
+      }
+
 
       const response = await fetch("https://thumbnails.roblox.com/v1/users/avatar-headshot", {
         method: "POST",
