@@ -1,4 +1,4 @@
-let usernames = ["BRAHMASILA"];
+let usernames = ["vinzzyy", "builderman"];
 
 export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -8,18 +8,13 @@ export default async function handler(req, res) {
   if (req.method === "OPTIONS") return res.status(200).end();
 
   if (req.method === "GET") {
-    try {
-      const robloxRes = await fetch("https://users.roblox.com/v1/usernames/users", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ usernames, excludeBannedUsers: false })
-      });
-
-      const data = await robloxRes.json();
-      return res.status(200).json(data.data);
-    } catch (err) {
-      return res.status(500).json({ error: "Failed to fetch from Roblox API" });
-    }
+    const robloxRes = await fetch("https://users.roblox.com/v1/usernames/users", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ usernames, excludeBannedUsers: false })
+    });
+    const data = await robloxRes.json();
+    return res.status(200).json(data.data);
   }
 
   if (req.method === "POST") {
