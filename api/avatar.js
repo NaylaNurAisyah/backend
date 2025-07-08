@@ -1,9 +1,12 @@
 export default async function handler(req, res) {
+  // Header CORS lengkap
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
-  if (req.method === "OPTIONS") return res.status(200).end();
+  if (req.method === "OPTIONS") {
+    return res.status(200).end(); // preflight OK
+  }
 
   if (req.method === "POST") {
     try {
@@ -22,7 +25,8 @@ export default async function handler(req, res) {
 
       const data = await response.json();
       return res.status(200).json(data);
-    } catch (e) {
+
+    } catch (error) {
       return res.status(500).json({ error: "Failed to fetch avatar thumbnails" });
     }
   }
