@@ -8,39 +8,26 @@ export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "https://vinzzyy.my.id");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  if (req.method === "OPTIONS") return res.status(200).end();
 
-  if (req.method === "OPTIONS") {
-    return res.status(200).end();
+  await client.connect();
+  const db = client.db(dbName);
+  const col = db.collection("users");
+
+  if (req.method === "GET") {
+    const users = await col.find().toArray();
+    return res.status(200).json(users);
   }
 
-  try {
-    await client.connect();
-    const db = client.db(dbName);
-    const collection = db.collection("users");
-
-    if (req.method === "GET") {
-      const allUsers = await collection.find().toArray();
-      return res.status(200).json(allUsers);
-    }
-
-    if (req.method === "POST") {
-      const buffers = [];
-      for await (const chunk of req) {
-        buffers.push(chunk);
-      }
-      const body = JSON.parse(Buffer.concat(buffers).toString());
-
-      const { username } = body;
-      if (!username) return res.status(400).json({ error: "Username required" });
-
-      await collection.insertOne({ username });
-      return res.status(200).json({ message: "Username added!" });
-    }
-
-    return res.status(405).json({ error: "Method not allowed" });
-
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ error: "Internal Server Error" });
+  if (req.method === "POST") {
+    const buffers = [];
+    for await (const chunk of req) buffers.push(chunk);
+    const body = JSON.parse(Buffer.concat(buffers).toString());
+    const { username } = body;
+    if (!username) return res.status(400).json({ error: "Username required" });
+    await col.insertOne({ username });
+    return res.status(200).json({ message: "Username added!" });
   }
+
+  return res.status(405).json({ error: "Method not allowed" });
 }
