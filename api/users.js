@@ -5,10 +5,13 @@ const client = new MongoClient(uri);
 const dbName = 'ssr_db';
 
 export default async function handler(req, res) {
-  res.setHeader("Access-Control-Allow-Origin", "https://vinzzyy.my.id");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-  if (req.method === "OPTIONS") return res.status(200).end();
+  // Handle preflight request
+  if (req.method === 'OPTIONS') {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    return res.status(200).end();
+  }
 
   await client.connect();
   const db = client.db(dbName);
