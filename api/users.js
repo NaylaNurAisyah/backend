@@ -1,4 +1,4 @@
-let users = ["BRAHMASILA"];
+let usernames = ["BRAHMASILA"];
 
 export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -8,13 +8,24 @@ export default async function handler(req, res) {
   if (req.method === "OPTIONS") return res.status(200).end();
 
   if (req.method === "GET") {
-    return res.status(200).json(users);
+    try {
+      const robloxRes = await fetch("https://users.roblox.com/v1/usernames/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ usernames, excludeBannedUsers: false })
+      });
+
+      const data = await robloxRes.json();
+      return res.status(200).json(data.data);
+    } catch (err) {
+      return res.status(500).json({ error: "Failed to fetch from Roblox API" });
+    }
   }
 
   if (req.method === "POST") {
     const { username } = req.body;
     if (!username) return res.status(400).json({ error: "Username required" });
-    users.push(username);
+    usernames.push(username);
     return res.status(200).json({ message: "Username added!" });
   }
 
