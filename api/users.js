@@ -5,23 +5,16 @@ const client = new MongoClient(uri);
 const dbName = 'ssr_db';
 
 export default async function handler(req, res) {
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Origin", "https://vinzzyy.my.id");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
-  if (req.method === "OPTIONS") return res.status(200).end();
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
 
   try {
-    // Parse body jika POST
-    if (req.method === "POST" && req.headers["content-type"] === "application/json") {
-      const buffers = [];
-      for await (const chunk of req) {
-        buffers.push(chunk);
-      }
-      req.body = JSON.parse(Buffer.concat(buffers).toString());
-    }
-
-    const client = await clientPromise;
+    await client.connect();
     const db = client.db(dbName);
     const collection = db.collection("users");
 
@@ -31,7 +24,13 @@ export default async function handler(req, res) {
     }
 
     if (req.method === "POST") {
-      const { username } = req.body;
+      const buffers = [];
+      for await (const chunk of req) {
+        buffers.push(chunk);
+      }
+      const body = JSON.parse(Buffer.concat(buffers).toString());
+
+      const { username } = body;
       if (!username) return res.status(400).json({ error: "Username required" });
 
       await collection.insertOne({ username });
@@ -41,7 +40,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
 
   } catch (err) {
-    console.error("Error:", err);
+    console.error(err);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 }
