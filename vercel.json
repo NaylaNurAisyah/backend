@@ -1,9 +1,13 @@
 {
   "version": 2,
   "builds": [
-    { "src": "api/users.js", "use": "@vercel/node" }
+    { "src": "api/users.js", "use": "@vercel/node" },
+    { "src": "api/avatar.js", "use": "@vercel/node" },
+    { "src": "api/roblox.js", "use": "@vercel/node" }
   ],
   "routes": [
-    { "src": "/users", "dest": "/api/users.js" }
+    { "src": "/users", "dest": "/api/users.js" },
+    { "src": "/avatar", "dest": "/api/avatar.js" },
+    { "src": "/roblox", "dest": "/api/roblox.js" }
   ]
 }
