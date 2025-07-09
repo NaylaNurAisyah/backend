@@ -40,9 +40,9 @@ export default async function handler(req, res) {
     
       if (!username) return res.status(400).json({ error: "Username required" });
 
-      const exists = await collection.findOne({ username: { $regex: `^${username}$`, $options: "i" } });
+      const exists = await collection.findOne({ name: { $regex: `^${username}$`, $options: "i" } });
       if (exists) {
-        return res.status(409).json({ error: "Username already exists" });
+        return res.status(409).json({ error: "User already exists" });
       }
       
       const robloxRes = await fetch("https://users.roblox.com/v1/usernames/users", {
