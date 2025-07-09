@@ -63,6 +63,21 @@ export default async function handler(req, res) {
       return res.status(200).json({ message: `${name} (${id}) added` });
     }
 
+    if (req.method === "DELETE") {
+      const { username } = req.query;
+      if (!username) return res.status(400).json({ error: "Username required" });
+    
+      const result = await collection.deleteOne({ name: { $regex: `^${username}$`, $options: "i" } });
+    
+      if (result.deletedCount === 0) {
+        return res.status(404).json({ error: "Username tidak ditemukan" });
+      }
+    
+      return res.status(200).json({ message: `Username ${username} telah dihapus` });
+    }
+
+
+
 
     return res.status(405).json({ error: "Method not allowed" });
 
