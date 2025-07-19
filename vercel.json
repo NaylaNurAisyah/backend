@@ -5,7 +5,7 @@
     { "src": "api/avatar.js", "use": "@vercel/node" },
     { "src": "api/warns.js", "use": "@vercel/node" },
     { "src": "api/roblox.js", "use": "@vercel/node" },
-    { "src": "/api/robloxinfo/[id].js", "use": "@vercel/node" }
+    { "src": "api/robloxinfo/[id].js", "use": "@vercel/node" }
   ],
   "routes": [
     { "src": "/users", "dest": "/api/users.js" },
