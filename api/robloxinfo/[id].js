@@ -1,17 +1,17 @@
-export default async function handler(req, res) {
-  const { id } = req.query;
+module.exports = async (req, res) => {
+  const id = req.url.split("/").pop(); // Ambil ID dari URL manual
 
-  res.setHeader('Access-Control-Allow-Origin', 'https://vinzzyy.my.id');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  res.setHeader('Vary', 'Origin');
+  res.setHeader("Access-Control-Allow-Origin", "https://vinzzyy.my.id");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Vary", "Origin");
 
-  if (req.method === 'OPTIONS') {
-    res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  if (req.method === "OPTIONS") {
+    res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
     return res.status(200).end();
   }
 
-  if (req.method !== 'GET') {
-    return res.status(405).json({ error: 'Only GET allowed' });
+  if (req.method !== "GET") {
+    return res.status(405).json({ error: "Only GET allowed" });
   }
 
   try {
@@ -30,8 +30,9 @@ export default async function handler(req, res) {
       displayName: profile.displayName,
       avatar: avatarUrl
     });
+
   } catch (err) {
     console.error("Gagal ambil data roblox:", err);
     res.status(500).json({ error: "Gagal ambil data dari Roblox" });
   }
-}
+};
