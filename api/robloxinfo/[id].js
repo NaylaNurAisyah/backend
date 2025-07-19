@@ -27,7 +27,7 @@ module.exports = async (req, res) => {
       fetch(userUrl)
     ]);
 
-    if (!profileRes.ok || !avatarRes.ok) {
+    if (!profileRes.ok) {
       throw new Error(`Roblox API Error: users.ok=${profileRes.ok}`);
     }
 
