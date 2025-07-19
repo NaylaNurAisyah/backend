@@ -33,6 +33,6 @@ module.exports = async (req, res) => {
 
   } catch (err) {
     console.error("Gagal ambil data roblox:", err);
-    res.status(500).json({ error: "Gagal ambil data dari Roblox" });
+    res.status(500).json({ error: "Gagal ambil data dari Roblox", details: err.message });
   }
 };
