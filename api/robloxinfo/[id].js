@@ -1,9 +1,14 @@
 module.exports = async (req, res) => {
   const id = req.url.split("/").pop(); // Ambil ID dari URL manual
+  if (!id || isNaN(id)) {
+    return res.status(400).json({ error: "Invalid userId" });
+  }
 
   res.setHeader("Access-Control-Allow-Origin", "https://vinzzyy.my.id");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
   res.setHeader("Vary", "Origin");
+
 
   if (req.method === "OPTIONS") {
     res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
@@ -13,8 +18,9 @@ module.exports = async (req, res) => {
   if (req.method !== "GET") {
     return res.status(405).json({ error: "Only GET allowed" });
   }
+  console.log("Fetching Roblox for ID:", id);
 
-  try {
+  try {aa
     const [profileRes, avatarRes] = await Promise.all([
       fetch(`https://users.roblox.com/v1/users/${id}`),
       fetch(`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${id}&size=150x150&format=Png&isCircular=true`)
