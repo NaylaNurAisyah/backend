@@ -4,12 +4,14 @@
     { "src": "api/users.js", "use": "@vercel/node" },
     { "src": "api/avatar.js", "use": "@vercel/node" },
     { "src": "api/warns.js", "use": "@vercel/node" },
-    { "src": "api/roblox.js", "use": "@vercel/node" }
+    { "src": "api/roblox.js", "use": "@vercel/node" },
+    { "src": "api/robloxinfo.js", "use": "@vercel/node" }
   ],
   "routes": [
     { "src": "/users", "dest": "/api/users.js" },
     { "src": "/avatar", "dest": "/api/avatar.js" },
     { "src": "/warns", "dest": "/api/warns.js" },
-    { "src": "/roblox", "dest": "/api/roblox.js" }
+    { "src": "/roblox", "dest": "/api/roblox.js" },
+    { "src": "/robloxinfo", "dest": "/api/robloxinfo.js" }
   ]
 }
