@@ -22,26 +22,21 @@ module.exports = async (req, res) => {
 
   try {
     const userUrl = `https://users.roblox.com/v1/users/${id}`;
-    const avatarUrl = `https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${id}&size=150x150&format=Png&isCircular=true`;
 
-    const [profileRes, avatarRes] = await Promise.all([
-      fetch(userUrl),
-      fetch(avatarUrl)
+    const [profileRes] = await Promise.all([
+      fetch(userUrl)
     ]);
 
     if (!profileRes.ok || !avatarRes.ok) {
-      throw new Error(`Roblox API Error: users.ok=${profileRes.ok}, avatar.ok=${avatarRes.ok}`);
+      throw new Error(`Roblox API Error: users.ok=${profileRes.ok}`);
     }
 
-    const profile = await profileRes.json();
-    const avatarJson = await avatarRes.json();
-    const image = avatarJson?.data?.[0]?.imageUrl || null;
+    const profile = await profileRes.json
 
     res.status(200).json({
       id: profile.id,
       name: profile.name,
-      displayName: profile.displayName,
-      avatar: image
+      displayName: profile.displayName
     });
   } catch (err) {
     console.error("❌ Roblox API fetch failed:", err);
