@@ -4,12 +4,12 @@
     { "src": "api/users.js", "use": "@vercel/node" },
     { "src": "api/warns.js", "use": "@vercel/node" },
     { "src": "api/roblox.js", "use": "@vercel/node" },
-    { "src": "api/robloxinfo/[id].js", "use": "@vercel/node" }
+    { "src": "api/robloxinfo/[id].cjs", "use": "@vercel/node" }
   ],
   "routes": [
     { "src": "/users", "dest": "/api/users.js" },
     { "src": "/warns", "dest": "/api/warns.js" },
     { "src": "/roblox", "dest": "/api/roblox.js" },
-    { "src": "/robloxinfo/(.*)", "dest": "/api/robloxinfo/[id].js" }
+    { "src": "/robloxinfo/(.*)", "dest": "/api/robloxinfo/[id].cjs" }
   ]
 }
