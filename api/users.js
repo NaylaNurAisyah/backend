@@ -6,7 +6,7 @@ const dbName = 'ssr_db';
 
 export default async function handler(req, res) {
   // Tambah header CORS untuk semua jenis request
-  res.setHeader('Access-Control-Allow-Origin', 'https://vinzzyy.my.id');
+  res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
