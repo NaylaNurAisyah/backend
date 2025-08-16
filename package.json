@@ -4,6 +4,7 @@
   "type": "module",
   "dependencies": {
     "mongodb": "^6.5.0",
-    "node-fetch": "^2.6.7"
+    "node-fetch": "^2.6.7",
+    "nodemailer": "^6.9.8"
   }
 }
