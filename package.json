@@ -5,6 +5,10 @@
   "dependencies": {
     "mongodb": "^6.5.0",
     "node-fetch": "^2.6.7",
-    "nodemailer": "^6.9.8"
+    "nodemailer": "^6.9.8",
+    "jsonwebtoken": "^9.0.2"
+  },
+  "devDependencies": {
+    "@vercel/node": "^3.0.0"
   }
 }
