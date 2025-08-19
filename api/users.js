@@ -59,7 +59,7 @@ export default async function handler(req, res) {
     
       const { id, name, displayName } = userData;
     
-      await collection.insertOne({ id, name, displayName });
+      await collection.insertOne({ id, name });
       return res.status(200).json({ message: `${name} (${id}) added` });
     }
 
