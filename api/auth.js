@@ -7,13 +7,17 @@ const client = new MongoClient(process.env.MONGO_URI);
 const dbName = "Vinzzyy";
 const usersCollection = client.db(dbName).collection("users");
 
-export default async function handler(req, res) {
+function setCors(res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+}
 
-  // Handle preflight OPTIONS
+export default async function handler(req, res) {
+ setCors(res);
+
   if (req.method === "OPTIONS") {
+    // 🔥 ini juga harus balikin header
     return res.status(200).end();
   }
   await client.connect();
