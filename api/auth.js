@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 // MongoDB connect
-const client = new MongoClient(process.env.MONGO_URI);
+const client = new MongoClient(process.env.MONGODB_URI);
 const dbName = "Vinzzyy";
 const usersCollection = client.db(dbName).collection("users");
 
@@ -20,6 +20,11 @@ export default async function handler(req, res) {
     // 🔥 ini juga harus balikin header
     return res.status(200).end();
   }
+
+  if (req.query.action === "ping" && req.method === "POST") {
+    return res.status(200).json({ message: "MENYALA BANGG" });
+  }
+  
   await client.connect();
 
   if (req.method === "POST" && req.query.action === "register") {
