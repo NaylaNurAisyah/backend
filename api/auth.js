@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 // MongoDB connect
-const client = new MongoClient(process.env.MONGODB_URI);
+const client = new MongoClient(process.env.MONGO_URI);
 const dbName = "vinzzyydb";
 const usersCollection = client.db(dbName).collection("users");
 
