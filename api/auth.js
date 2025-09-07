@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 
 // MongoDB connect
 const client = new MongoClient(process.env.MONGO_URI);
-const dbName = "vinzzyydb";
+const dbName = "Vinzzyy";
 const usersCollection = client.db(dbName).collection("users");
 
 export default async function handler(req, res) {
