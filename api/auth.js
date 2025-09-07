@@ -8,6 +8,9 @@ const dbName = "Vinzzyy";
 const usersCollection = client.db(dbName).collection("users");
 
 export default async function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   await client.connect();
 
   if (req.method === "POST" && req.query.action === "register") {
